@@ -14,7 +14,6 @@ spec:
           - clusters:
               values:
                 addonChart: argo-cd
-                # anything not staging or prod use this version
                 addonChartVersion: 7.7.16
                 addonChartRepository: https://argoproj.github.io/argo-helm
               selector:
@@ -30,7 +29,7 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion:  7.7.16
+                addonChartVersion: 7.7.16
           - clusters:
               selector:
                 matchLabels:
@@ -65,7 +64,7 @@ spec:
                 ingress:
                   enabled: true
                   controller: "aws"
-                  ingressClassName: "alb"
+                  ingressClassName: alb
                   annotations:
                     alb.ingress.kubernetes.io/scheme: "internet-facing"
                     alb.ingress.kubernetes.io/target-type: "ip"
@@ -74,8 +73,8 @@ spec:
                     alb.ingress.kubernetes.io/ssl-redirect: "443"
                     alb.ingress.kubernetes.io/tags: "Environment=hub,GitOps=true"
                   aws:
-                    serviceType: "ClusterIP"  # Instance mode needs type NodePort, IP mode needs type ClusterIP or NodePort
-                    backendProtocolVersion: "GRPC"  # This tells AWS to send traffic from the ALB using HTTP2. Can use gRPC as well if you want to leverage gRPC specific features
+                    serviceType: "ClusterIP"
+                    backendProtocolVersion: "GRPC"
       destination:
         namespace: '{{default "argocd" .metadata.annotations.argocd_namespace}}'
         name: '{{.name}}'
@@ -83,4 +82,4 @@ spec:
         automated: {}
         syncOptions:
           - CreateNamespace=true
-          - ServerSideApply=true  # Big CRDs.
+          - ServerSideApply=true
