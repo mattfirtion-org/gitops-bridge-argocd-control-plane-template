@@ -1,36 +1,36 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: sonarqube-applicationset
-  namespace: argocd
-spec:
-  generators:
-    - list:
-        elements:
-          - cluster: in-cluster
-            namespace: sonarqube
-  template:
-    metadata:
-      name: sonarqube
-    spec:
-      project: default
-      source:
-        repoURL: https://SonarSource.github.io/helm-chart-sonarqube
-        targetRevision: 10.8.1
-        chart: sonarqube
-        helm:
-          releaseName: sonarqube
-          ignoreMissingValueFiles: true
-          helm:
-            valueFiles:
-              - environments/default/sonarqube/values.yaml
-          #   value: |
-          #     - "https://github.com/mc1arke/sonarqube-community-branch-plugin/releases/download/1.10.0/sonarqube-community-branch-plugin-1.10.0.jar"
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: sonarqube
-        createNamespace: true
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: sonarqube-applicationset
+#   namespace: argocd
+# spec:
+#   generators:
+#     - list:
+#         elements:
+#           - cluster: in-cluster
+#             namespace: sonarqube
+#   template:
+#     metadata:
+#       name: sonarqube
+#     spec:
+#       project: default
+#       source:
+#         repoURL: https://SonarSource.github.io/helm-chart-sonarqube
+#         targetRevision: 10.8.1
+#         chart: sonarqube
+#         helm:
+#           releaseName: sonarqube
+#           ignoreMissingValueFiles: true
+#           helm:
+#             valueFiles:
+#               - environments/default/sonarqube/values.yaml
+#           #   value: |
+#           #     - "https://github.com/mc1arke/sonarqube-community-branch-plugin/releases/download/1.10.0/sonarqube-community-branch-plugin-1.10.0.jar"
+#       destination:
+#         server: https://kubernetes.default.svc
+#         namespace: sonarqube
+#         createNamespace: true
+#       syncPolicy:
+#         automated:
+#           prune: true
+#           selfHeal: true
