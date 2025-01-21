@@ -19,34 +19,13 @@ spec:
         targetRevision: 10.8.1
         chart: sonarqube
         helm:
-          parameters:
-            - name: community.enabled
-              value: "true"
-            - name: community.buildNumber
-              value: "24.12.0.100206"
-            - name: service.type
-              value: "ClusterIP"
-            - name: ingress.enabled
-              value: "true"
-            - name: ingress.annotations."kubernetes.io/ingress.class"
-              value: "alb"
-            - name: ingress.annotations."alb.ingress.kubernetes.io/scheme"
-              value: "internet-facing"
-            - name: ingress.annotations."alb.ingress.kubernetes.io/target-type"
-              value: "ip"
-            - name: ingress.annotations."alb.ingress.kubernetes.io/group.name"
-              value: "shared-ops-group"
-            - name: ingress.annotations."alb.ingress.kubernetes.io/listen-ports"
-              value: '[{"HTTP":80},{"HTTPS":443}]'
-            - name: ingress.annotations."alb.ingress.kubernetes.io/ssl-redirect"
-              value: "443"
-            - name: ingress.hosts[0].host
-              value: "sonarqube.cc-main.meowsauce.online"
-            - name: ingress.hosts[0].paths[0].path
-              value: "/"
-            # - name: plugins.install
-            #   value: |
-            #     - "https://github.com/mc1arke/sonarqube-community-branch-plugin/releases/download/1.10.0/sonarqube-community-branch-plugin-1.10.0.jar"
+          releaseName: sonarqube
+          ignoreMissingValueFiles: true
+          helm:
+            valueFiles:
+              - environments/default/sonarqube/values.yaml
+          #   value: |
+          #     - "https://github.com/mc1arke/sonarqube-community-branch-plugin/releases/download/1.10.0/sonarqube-community-branch-plugin-1.10.0.jar"
       destination:
         server: https://kubernetes.default.svc
         namespace: sonarqube
