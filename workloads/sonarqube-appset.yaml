@@ -37,7 +37,7 @@ spec:
             - name: ingress.annotations."alb.ingress.kubernetes.io/group.name"
               value: "shared-ops-group"
             - name: ingress.annotations."alb.ingress.kubernetes.io/listen-ports"
-              value: '[{"HTTP": 80}, {"HTTPS": 443}]'
+              value: "[{\"HTTP\":80},{\"HTTPS\":443}]"
             - name: ingress.annotations."alb.ingress.kubernetes.io/certificate-arn"
               value: "<ACM_CERTIFICATE_ARN>"
             - name: ingress.annotations."alb.ingress.kubernetes.io/ssl-redirect"
