@@ -19,3 +19,7 @@ ingress:
       secretName: sonarqube-tls-secret
 service:
   externalPort: 9000
+
+community:
+  enabled: true
+  buildNumber: 24.12.0.100206
