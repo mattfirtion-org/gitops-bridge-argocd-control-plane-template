@@ -30,6 +30,8 @@ spec:
               value: "internet-facing"
             - name: ingress.annotations."alb.ingress.kubernetes.io/target-type"
               value: "ip"
+            - name: ingress.annotations."alb.ingress.kubernetes.io/group.name"
+              value: "shared-ops-group"
             - name: ingress.annotations."alb.ingress.kubernetes.io/listen-ports"
               value: '[{"HTTP": 80}, {"HTTPS": 443}]'
             - name: ingress.annotations."alb.ingress.kubernetes.io/certificate-arn"
