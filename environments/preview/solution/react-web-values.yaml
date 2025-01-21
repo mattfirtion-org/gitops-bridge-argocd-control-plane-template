@@ -1,0 +1,13 @@
+image:
+  repository: your-docker-repo/react-web
+  tag: stable
+resources:
+  limits:
+    memory: 1Gi
+    cpu: 500m
+  requests:
+    memory: 512Mi
+    cpu: 200m
+replicaCount: 1
+service:
+  type: ClusterIP

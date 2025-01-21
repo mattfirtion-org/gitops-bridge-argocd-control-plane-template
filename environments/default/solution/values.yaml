@@ -1,0 +1,14 @@
+
+replicaCount: 2
+image:
+  repository: foobar-app
+  tag: stable
+resources:
+  limits:
+    memory: 2Gi
+    cpu: 1
+  requests:
+    memory: 1Gi
+    cpu: 500m
+service:
+  type: ClusterIP

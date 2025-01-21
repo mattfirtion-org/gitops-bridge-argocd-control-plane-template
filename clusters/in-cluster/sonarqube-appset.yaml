@@ -1,0 +1,93 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: sonarqube-applicationset
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: in-cluster
+            namespace: sonarqube
+  template:
+    metadata:
+      name: sonarqube
+    spec:
+      project: default
+      source:
+        repoURL: https://helm.sonarsource.com
+        targetRevision: 10.8.1
+        chart: sonarqube
+        helm:
+          parameters:
+            - name: service.type
+              value: "ClusterIP"
+            - name: ingress.enabled
+              value: "true"
+            - name: ingress.annotations."kubernetes.io/ingress.class"
+              value: "alb"
+            - name: ingress.annotations."alb.ingress.kubernetes.io/scheme"
+              value: "internet-facing"
+            - name: ingress.annotations."alb.ingress.kubernetes.io/target-type"
+              value: "ip"
+            - name: ingress.annotations."alb.ingress.kubernetes.io/listen-ports"
+              value: '[{"HTTP": 80}, {"HTTPS": 443}]'
+            - name: ingress.annotations."alb.ingress.kubernetes.io/certificate-arn"
+              value: "<ACM_CERTIFICATE_ARN>"
+            - name: ingress.annotations."alb.ingress.kubernetes.io/ssl-redirect"
+              value: "443"
+            - name: ingress.hosts[0].host
+              value: "sonarqube.example.com"
+            - name: ingress.hosts[0].paths[0].path
+              value: "/"
+
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: sonarqube-host-config
+#   namespace: sonarqube
+# data:
+#   ingressHost: sonarqube.example.com
+
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: sonarqube-applicationset
+#   namespace: argocd
+# spec:
+#   generators:
+#     - list:
+#         elements:
+#           - cluster: in-cluster
+#             namespace: sonarqube
+#   template:
+#     metadata:
+#       name: sonarqube
+#     spec:
+#       project: default
+#       source:
+#         repoURL: https://helm.sonarsource.com
+#         targetRevision: 10.8.1
+#         chart: sonarqube
+#         helm:
+#           parameters:
+#             - name: service.type
+#               value: "ClusterIP"
+#             - name: ingress.enabled
+#               value: "true"
+#             - name: ingress.annotations."kubernetes.io/ingress.class"
+#               value: "alb"
+#             - name: ingress.annotations."alb.ingress.kubernetes.io/scheme"
+#               value: "internet-facing"
+#             - name: ingress.annotations."alb.ingress.kubernetes.io/target-type"
+#               value: "ip"
+#             - name: ingress.annotations."alb.ingress.kubernetes.io/listen-ports"
+#               value: '[{"HTTP": 80}, {"HTTPS": 443}]'
+#             - name: ingress.annotations."alb.ingress.kubernetes.io/certificate-arn"
+#               value: "<ACM_CERTIFICATE_ARN>"
+#             - name: ingress.annotations."alb.ingress.kubernetes.io/ssl-redirect"
+#               value: "443"
+#             - name: ingress.hosts[0].host
+#               value: "sonarqube.example.com"
+#             - name: ingress.hosts[0].paths[0].path
+#               value: "/"

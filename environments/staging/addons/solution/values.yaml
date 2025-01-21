@@ -1,0 +1,10 @@
+replicaCount: 3
+image:
+  tag: staging-latest
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 500m
+  limits:
+    memory: 2Gi
+    cpu: 1

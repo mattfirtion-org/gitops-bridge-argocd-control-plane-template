@@ -1,0 +1,13 @@
+image:
+  repository: your-docker-repo/user-api
+  tag: main
+resources:
+  limits:
+    memory: 2Gi
+    cpu: 1
+  requests:
+    memory: 1Gi
+    cpu: 500m
+replicaCount: 2
+service:
+  type: ClusterIP

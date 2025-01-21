@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: solution
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/your-org/gitops-repo.git
+        revision: main
+        directories:
+          - path: environments/dev/solution
+          - path: environments/staging/solution
+          - path: environments/prod/solution
+  template:
+    metadata:
+      name: solution-{{path.basename}}
+      labels:
+        environment: '{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/your-org/gitops-repo.git
+        path: components/solution
+        targetRevision: main
+        helm:
+          valueFiles:
+            - environments/default/solution/values.yaml
+            - environments/{{path.basename}}/solution/values.yaml
+      destination:
+        namespace: solution-{{path.basename}}
+        server: >
+          {{- if eq path.basename "prod" -}}
+          https://kubernetes.prod-cluster.svc
+          {{- else -}}
+          https://kubernetes.default.svc
+          {{- end }}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
