@@ -37,7 +37,7 @@ spec:
             - name: ingress.annotations."alb.ingress.kubernetes.io/ssl-redirect"
               value: "443"
             - name: ingress.hosts[0].host
-              value: "sonarqube.example.com"
+              value: "sonarqube.cc-main.meowsauce.online"
             - name: ingress.hosts[0].paths[0].path
               value: "/"
 

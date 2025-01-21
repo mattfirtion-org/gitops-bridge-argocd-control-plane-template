@@ -1,40 +1,40 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: foobar-preview
-spec:
-  generators:
-    - pullRequest:
-        provider:
-          github:
-            tokenRef:
-              secretName: github-token
-              key: token
-        repoURLs:
-          - https://github.com/your-org/react-web
-          - https://github.com/your-org/user-api
-  template:
-    metadata:
-      name: foobar-preview-{{metadata.repo | splitList "/" | last | replace "-" ""}}-{{metadata.number}}
-      labels:
-        environment: preview
-        pr-number: '{{metadata.number}}'
-        service: '{{metadata.repo | splitList "/" | last | replace "-" ""}}'
-    spec:
-      project: default
-      source:
-        repoURL: 'https://helm.repo.url/{{ metadata.repo | splitList "/" | last | replace "-" "" }}'
-        chart: '{{ metadata.repo | splitList "/" | last | replace "-" "" }}'
-        targetRevision: '{{metadata.headSha}}'
-        helm:
-          valueFiles:
-            - environments/preview/foobar/{{metadata.repo | splitList "/" | last | replace "-" ""}}-values.yaml
-      destination:
-        namespace: foobar-preview-{{metadata.repo | splitList "/" | last | replace "-" ""}}-{{metadata.number}}
-        server: https://kubernetes.default.svc
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: foobar-preview
+# spec:
+#   generators:
+#     - pullRequest:
+#         provider:
+#           github:
+#             tokenRef:
+#               secretName: github-token
+#               key: token
+#         repoURLs:
+#           - https://github.com/your-org/react-web
+#           - https://github.com/your-org/user-api
+#   template:
+#     metadata:
+#       name: foobar-preview-{{metadata.repo | splitList "/" | last | replace "-" ""}}-{{metadata.number}}
+#       labels:
+#         environment: preview
+#         pr-number: '{{metadata.number}}'
+#         service: '{{metadata.repo | splitList "/" | last | replace "-" ""}}'
+#     spec:
+#       project: default
+#       source:
+#         repoURL: 'https://helm.repo.url/{{ metadata.repo | splitList "/" | last | replace "-" "" }}'
+#         chart: '{{ metadata.repo | splitList "/" | last | replace "-" "" }}'
+#         targetRevision: '{{metadata.headSha}}'
+#         helm:
+#           valueFiles:
+#             - environments/preview/foobar/{{metadata.repo | splitList "/" | last | replace "-" ""}}-values.yaml
+#       destination:
+#         namespace: foobar-preview-{{metadata.repo | splitList "/" | last | replace "-" ""}}-{{metadata.number}}
+#         server: https://kubernetes.default.svc
+#       syncPolicy:
+#         automated:
+#           prune: true
+#           selfHeal: true
+#         syncOptions:
+#           - CreateNamespace=true
