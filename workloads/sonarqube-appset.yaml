@@ -29,6 +29,7 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: sonarqube
+        createNamespace: true
       syncPolicy:
         automated:
           prune: true
